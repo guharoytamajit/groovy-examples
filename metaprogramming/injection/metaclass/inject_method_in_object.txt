@@ -1,0 +1,21 @@
+class Person {
+def play() { println 'playing...' }
+}
+def jack = new Person()
+def paul = new Person()
+jack.metaClass.sing = { ->
+'oh baby baby...'
+}
+println jack.sing()
+try {
+paul.sing()
+} catch(ex) {
+println ex
+}
+jack.metaClass = null //this will only clear meta methods ,not own method 
+try {
+jack.play() 
+jack.sing()
+} catch(ex) {
+println ex
+}

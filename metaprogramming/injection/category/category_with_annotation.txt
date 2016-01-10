@@ -1,0 +1,23 @@
+@Category(String)
+class StringUtilAnnotated {
+def toSSN() {
+if (size() == 9) {
+"${this[0..2]}-${this[3..4]}-${this[5..8]}"
+}
+}
+}
+@Category(String)
+class FindUtil {
+def  extractOnly(closure) {
+def result = ''
+this.each {
+if (closure(it)) { result += it }
+}
+result
+}
+}
+
+use(StringUtilAnnotated,FindUtil) {
+println "123456789".toSSN()
+println "4885467".extractOnly{it == '4' || it == '5'}
+}
