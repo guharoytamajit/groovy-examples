@@ -1,0 +1,51 @@
+def expando =new Expando()
+expando.language="java" //expando.setProperty("language","java")
+expando.add={i,j -> i+j}
+assert "java" == expando.language//expando.getProperty("language")
+assert 30 == expando.add(10,20)//expando.invokeMethod("add",[10,20] as Object[])
+assert null == expando.foo
+//===========================================================
+class MyExpando{
+private dynamicProps=[:]
+void setProperty(String name,value){
+dynamicProps[name]=value
+}
+def getProperty(String name){
+dynamicProps[name]
+}
+def methodMissing(String name,args){
+def prop=dynamicProps[name]
+if(prop instanceof Closure){
+prop(*args)
+}
+}
+}
+def myExpando=new MyExpando()
+myExpando.language="groovy"
+myExpando.add={i,j -> i+j}
+assert "groovy" == myExpando.language
+assert 30 == myExpando.add(15,15)
+//===========================================================
+class MyExpando2{
+private dynamicProps=[:]
+def city="kolkata"
+void propertyMissing(String name,value){
+dynamicProps[name]=value
+}
+def propertyMissing(String name){
+dynamicProps[name]
+}
+def methodMissing(String name,args){
+def prop=dynamicProps[name]
+if(prop instanceof Closure){
+prop(*args)
+}
+}
+}
+def myExpando2=new MyExpando2()
+myExpando2.language="groovy"
+myExpando2.add={i,j -> i+j}
+//myExpando2.city="asdassd"
+assert "groovy" == myExpando2.language
+assert 30 == myExpando2.add(15,15)
+assert "kolkata" == myExpando2.city

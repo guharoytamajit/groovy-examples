@@ -1,0 +1,12 @@
+def abc={
+append "hello\n"
+append "world"
+}
+StringBuilder sb=new StringBuilder()
+abc.delegate = sb
+abc()
+println "$sb"
+//==============================================================================
+String.metaClass.getUpper={delegate.toUpperCase()}
+println "hi".upper
+println "hi".getUpper()
